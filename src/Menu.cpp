@@ -95,13 +95,13 @@ void Menu::menuOption1() {
     cout << "Process Completed!" << endl;
     cout << "-----------------------------------------------------------------------------------------" << endl << endl << endl;
 
-    cout << "Enter the Source Airport" << endl;
+    cout << "Enter the Source Airport (ex: GKA)" << endl;
     cout << " > ";
 
     string airportSource;
     cin >> airportSource;
 
-    cout << endl << "Enter the Target Airport" << endl;
+    cout << endl << "Enter the Target Airport (ex: VAI)" << endl;
     cout << " > ";
 
     string airportTarget;
