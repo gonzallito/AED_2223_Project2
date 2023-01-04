@@ -85,6 +85,12 @@ build CMakeFiles/AED_2223_Project2.dir/src/Flight.cpp.o: CXX_COMPILER__AED_2223_
   OBJECT_DIR = CMakeFiles/AED_2223_Project2.dir
   OBJECT_FILE_DIR = CMakeFiles/AED_2223_Project2.dir/src
 
+build CMakeFiles/AED_2223_Project2.dir/src/graph.cpp.o: CXX_COMPILER__AED_2223_Project2_Debug /home/gonzallito/Documentos/2_Ano/1_Semestre/AED/Projetos/AED_2223_Project2/src/graph.cpp || cmake_object_order_depends_target_AED_2223_Project2
+  DEP_FILE = CMakeFiles/AED_2223_Project2.dir/src/graph.cpp.o.d
+  FLAGS = -g -fdiagnostics-color=always -std=gnu++14
+  OBJECT_DIR = CMakeFiles/AED_2223_Project2.dir
+  OBJECT_FILE_DIR = CMakeFiles/AED_2223_Project2.dir/src
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target AED_2223_Project2
@@ -93,7 +99,7 @@ build CMakeFiles/AED_2223_Project2.dir/src/Flight.cpp.o: CXX_COMPILER__AED_2223_
 #############################################
 # Link the executable AED_2223_Project2
 
-build AED_2223_Project2: CXX_EXECUTABLE_LINKER__AED_2223_Project2_Debug CMakeFiles/AED_2223_Project2.dir/main.cpp.o CMakeFiles/AED_2223_Project2.dir/src/Airline.cpp.o CMakeFiles/AED_2223_Project2.dir/src/Airport.cpp.o CMakeFiles/AED_2223_Project2.dir/src/Data.cpp.o CMakeFiles/AED_2223_Project2.dir/src/Menu.cpp.o CMakeFiles/AED_2223_Project2.dir/src/Flight.cpp.o
+build AED_2223_Project2: CXX_EXECUTABLE_LINKER__AED_2223_Project2_Debug CMakeFiles/AED_2223_Project2.dir/main.cpp.o CMakeFiles/AED_2223_Project2.dir/src/Airline.cpp.o CMakeFiles/AED_2223_Project2.dir/src/Airport.cpp.o CMakeFiles/AED_2223_Project2.dir/src/Data.cpp.o CMakeFiles/AED_2223_Project2.dir/src/Menu.cpp.o CMakeFiles/AED_2223_Project2.dir/src/Flight.cpp.o CMakeFiles/AED_2223_Project2.dir/src/graph.cpp.o
   FLAGS = -g
   OBJECT_DIR = CMakeFiles/AED_2223_Project2.dir
   POST_BUILD = :

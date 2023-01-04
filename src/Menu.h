@@ -6,6 +6,7 @@
 #define AED_2223_PROJECT2_MENU_H
 
 #include <iostream>
+#include "Data.h"
 
 using namespace std;
 
@@ -15,6 +16,7 @@ public:
     void mainMenu() const;
     bool valid();
     void runMainMenu();
+    void menuOption1();
 };
 
 

@@ -10,6 +10,14 @@
 using namespace std;
 
 class Airport {
+private:
+    string code;
+    string name;
+    string city;
+    string country;
+    string latitude;
+    string longitude;
+
 public:
     Airport(string code, string name, string city, string country, string latitude, string longitude);
     string getCode() const;
@@ -19,13 +27,6 @@ public:
     string getLatitude() const;
     string getLongitude() const;
 
-private:
-    string code;
-    string name;
-    string city;
-    string country;
-    string latitude;
-    string longitude;
 };
 
 

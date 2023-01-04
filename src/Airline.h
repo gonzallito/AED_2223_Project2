@@ -10,6 +10,13 @@
 using namespace std;
 
 class Airline {
+
+private:
+    string code;
+    string name;
+    string callSign;
+    string country;
+
 public:
     Airline(string code, string name, string callSign, string country);
     string getCode() const;
@@ -17,11 +24,6 @@ public:
     string getCallSign() const;
     string getCountry() const;
 
-private:
-    string code;
-    string name;
-    string callSign;
-    string country;
 };
 
 

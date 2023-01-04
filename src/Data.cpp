@@ -10,7 +10,7 @@
 using namespace std;
 
 
-Data::Data() {
+Data::Data() : airlinesGraph(airlinesGraph) {
     airlines = {};
     airports = {};
     flights = {};
@@ -89,8 +89,8 @@ bool Data::readFlights() {
     getline(file_flights, line);
     string target; string source; string airline;
 
-    while(getline(file_flights, line)) {
 
+    while(getline(file_flights, line)) {
         stringstream iss(line);
 
         getline(iss, target, ',');
@@ -115,3 +115,20 @@ vector<Flight> Data::getFlights() const
 {return this->flights;}
 
 
+double Data::haversine(double lat1, double lon1, double lat2, double lon2) {
+    // convert degrees to radians
+    lat1 = lat1 * M_PI / 180.0;
+    lon1 = lon1 * M_PI / 180.0;
+    lat2 = lat2 * M_PI / 180.0;
+    lon2 = lon2 * M_PI / 180.0;
+
+    // haversine formula
+    double dlon = lon2 - lon1;
+    double dlat = lat2 - lat1;
+    double a = std::pow(std::sin(dlat / 2), 2) + std::cos(lat1) * std::cos(lat2) * std::pow(std::sin(dlon / 2), 2);
+    double c = 2 * std::atan2(std::sqrt(a), std::sqrt(1 - a));
+    double R = 6371; // Radius of the Earth in kilometers
+    double d = R * c;
+
+    return d;
+}

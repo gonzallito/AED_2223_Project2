@@ -10,16 +10,18 @@
 using namespace std;
 
 class Flight {
+
+private:
+    string source;
+    string target;
+    string airline;
+
 public:
     Flight(string source, string target, string airline);
     string getSource() const;
     string getTarget() const;
     string getAirline() const;
 
-private:
-    string source;
-    string target;
-    string airline;
 };
 
 
