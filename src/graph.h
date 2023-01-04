@@ -39,7 +39,7 @@ public:
 
     void printGraph();
 
-    vector<string> get_shortest_path(string start, string end);
+    void get_shortest_path(string start, string end);
 
 
 

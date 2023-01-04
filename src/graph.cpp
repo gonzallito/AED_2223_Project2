@@ -49,7 +49,7 @@ void Graph::printGraph() {
 }
 
 
-vector<string> Graph::get_shortest_path(string start, string end)  {
+void Graph::get_shortest_path(string start, string end)  {
     queue<Node> q;
     unordered_map<string, string> previous;
     unordered_map<string, int> distance;
@@ -67,7 +67,6 @@ vector<string> Graph::get_shortest_path(string start, string end)  {
 
         Node node = q.front();
         q.pop();
-
 
         if (node.name == end) {
             break;
@@ -89,19 +88,25 @@ vector<string> Graph::get_shortest_path(string start, string end)  {
     vector<string> path;
     string current = end;
     while (current != start) {
+        if (current.empty()) {
+            cout << "--------------------------------------------------------" << endl;
+            cout << "There is no Path my friend! Dá sempre para ir a Penantes" << endl;
+            cout << "--------------------------------------------------------" << endl;
+            return;
+        }
         path.insert(path.begin(), current);
         current = previous[current];
     }
     path.insert(path.begin(), start);
+    cout << "--------------------------------------------------------" << endl;
     for (int i = 0; i < path.size(); ++i) {
         if (i != path.size()-1) {
-            cout << path[i] << " --- ";
+            cout << path[i] << " --> ";
         }
         else
             cout << path[i];
     }
-
-    return path;
+    cout << endl << "--------------------------------------------------------" << endl;
 }
 
 
