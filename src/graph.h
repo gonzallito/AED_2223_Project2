@@ -42,6 +42,10 @@ public:
     // Add edge from source to destination with a certain weight
     void addEdge(string src, string dest, int distance, string airline);
 
+    void setNodes(const vector<Node> &nodes);
+
+    //const vector<Node> &getNodes() const;
+
     void printGraph();
 
     int get_shortest_path_code(string start, string end);

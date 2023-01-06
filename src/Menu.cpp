@@ -844,3 +844,19 @@ void Menu::menuOption9() {
     }
     cout << endl << endl;
 }
+
+
+
+void Menu::menuOption21() {
+    cout << " Enter Airport's Code: (ex: ORY)" << endl;
+    cout << " > ";
+
+    string airportCode;
+    cin >> airportCode;
+
+    for (auto i : airlines.getNodes()) {
+
+    }
+
+
+}

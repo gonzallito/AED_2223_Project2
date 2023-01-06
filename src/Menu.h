@@ -24,6 +24,7 @@ public:
     void runMainMenu();
     void runOption1Menu();
     void runOption2Menu();
+
     void buildGraph();
     void menuOption1();
     void menuOption2();
@@ -34,6 +35,8 @@ public:
     void menuOption7();
     void menuOption8();
     void menuOption9();
+
+    void menuOption21();
 };
 
 

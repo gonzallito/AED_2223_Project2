@@ -171,3 +171,11 @@ void Graph::setN(int n) {
 void Graph::setHasDir(bool hasDir) {
     Graph::hasDir = hasDir;
 }
+/*
+const vector<Node> &Graph::getNodes() const {
+    return nodes;
+}
+*/
+void Graph::setNodes(const vector<Node> &nodes) {
+    Graph::nodes = nodes;
+}
