@@ -71,7 +71,7 @@ bool Data::readAirports() {
 
         Airport airport(code, name, city, country, latitude, longitude);
         airports.push_back(airport);
-        airportsMap[code] = city;
+        airportsMap[code] = airport;
     }
     file_airports.close();
     return true;
@@ -114,7 +114,7 @@ vector<Airport> Data::getAirport() const
 vector<Flight> Data::getFlights() const
 {return this->flights;}
 
-const unordered_map<string, string> &Data::getAirportsMap() const {
+const unordered_map<string, Airport> &Data::getAirportsMap() const {
     return airportsMap;
 }
 
@@ -139,7 +139,7 @@ double Data::haversine(double lat1, double lon1, double lat2, double lon2) {
 
 void Data::printHash() {
     for (auto i : airportsMap) {
-        cout << i.first << " - " << i.second << endl;
+        cout << i.first << " - " << i.second.getName() << " - " << i.second.getLongitude() << " - " << i.second.getLatitude()<< endl;
     }
 }
 

@@ -20,7 +20,7 @@ private:
     vector<Airport> airports;
     vector<Flight> flights;
     Graph airlinesGraph;
-    unordered_map<string, string> airportsMap;
+    unordered_map<string, Airport> airportsMap;
 
 public:
     Data();
@@ -30,9 +30,10 @@ public:
     vector<Airline> getAirline() const;
     vector<Airport> getAirport() const;
     vector<Flight> getFlights() const;
-    const unordered_map<string, string> &getAirportsMap() const;
+    const unordered_map<string, Airport> &getAirportsMap() const;
     double haversine(double lat1, double lon1, double lat2, double lon2);
     void printHash();
+
 };
 
 

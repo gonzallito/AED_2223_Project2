@@ -11,7 +11,6 @@ int main() {
 
     Menu menu(d);
     menu.runMainMenu();
-
 /*
     Data d;
     d.readFlights();

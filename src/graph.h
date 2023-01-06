@@ -47,23 +47,6 @@ public:
     int get_shortest_path_code(string start, string end);
     void printPath(string start, string end, int option);
 
-
-
-
-    // Depth-First Search: example implementation
-    //void dfs(int v);
-
-    /*
-    // ----- Functions to implement in this class -----
-    int outDegree(int v);
-    int weightedOutDegree(int v);
-    int connectedComponents();
-    int giantComponent();
-    list<int> topologicalSorting();
-    bool hasCycle();
-
-    int dfs1(int v);
-    */
 };
 
 #endif
