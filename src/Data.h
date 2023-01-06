@@ -7,6 +7,7 @@
 
 #include <vector>
 #include <cmath>
+#include <unordered_map>
 #include "Airline.h"
 #include "Airport.h"
 #include "Flight.h"
@@ -19,6 +20,7 @@ private:
     vector<Airport> airports;
     vector<Flight> flights;
     Graph airlinesGraph;
+    unordered_map<string, string> airportsMap;
 
 public:
     Data();
@@ -28,8 +30,9 @@ public:
     vector<Airline> getAirline() const;
     vector<Airport> getAirport() const;
     vector<Flight> getFlights() const;
-    void printAirlines();
+    const unordered_map<string, string> &getAirportsMap() const;
     double haversine(double lat1, double lon1, double lat2, double lon2);
+    void printHash();
 };
 
 

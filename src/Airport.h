@@ -19,6 +19,7 @@ private:
     string longitude;
 
 public:
+    Airport();
     Airport(string code, string name, string city, string country, string latitude, string longitude);
     string getCode() const;
     string getName() const;
@@ -26,7 +27,6 @@ public:
     string getCountry() const;
     string getLatitude() const;
     string getLongitude() const;
-
 };
 
 

@@ -71,8 +71,8 @@ bool Data::readAirports() {
 
         Airport airport(code, name, city, country, latitude, longitude);
         airports.push_back(airport);
+        airportsMap[code] = city;
     }
-
     file_airports.close();
     return true;
 }
@@ -114,6 +114,10 @@ vector<Airport> Data::getAirport() const
 vector<Flight> Data::getFlights() const
 {return this->flights;}
 
+const unordered_map<string, string> &Data::getAirportsMap() const {
+    return airportsMap;
+}
+
 
 double Data::haversine(double lat1, double lon1, double lat2, double lon2) {
     // convert degrees to radians
@@ -132,3 +136,11 @@ double Data::haversine(double lat1, double lon1, double lat2, double lon2) {
 
     return d;
 }
+
+void Data::printHash() {
+    for (auto i : airportsMap) {
+        cout << i.first << " - " << i.second << endl;
+    }
+}
+
+

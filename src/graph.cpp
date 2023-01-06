@@ -3,6 +3,9 @@
 
 #include "graph.h"
 
+
+Graph::Graph() {}
+
 // Constructor: nr nodes and direction (default: undirected)
 Graph::Graph(int n, bool dir) : n(n), hasDir(dir) {
 }
@@ -49,7 +52,7 @@ void Graph::printGraph() {
 }
 
 
-void Graph::get_shortest_path(string start, string end)  {
+int Graph::get_shortest_path_code(string start, string end)  {
     queue<Node> q;
     unordered_map<string, string> previous;
     unordered_map<string, int> distance;
@@ -89,6 +92,58 @@ void Graph::get_shortest_path(string start, string end)  {
     string current = end;
     while (current != start) {
         if (current.empty()) {
+            return 0;
+        }
+        path.insert(path.begin(), current);
+        current = previous[current];
+    }
+    path.insert(path.begin(), start);
+    return path.size();
+}
+
+
+
+void Graph::printPath(string start, string end, int option) {
+    queue<Node> q;
+    unordered_map<string, string> previous;
+    unordered_map<string, int> distance;
+
+    for (auto & node : nodes) {
+        if (node.name == start) {
+            q.push(node);
+        }
+    }
+
+    distance[start] = 0;
+
+    while (!q.empty()) {
+
+
+        Node node = q.front();
+        q.pop();
+
+        if (node.name == end) {
+            break;
+        }
+
+        for (auto & e : node.adj) {
+            if (distance.count(e.dest) == 0) {
+                distance[e.dest] = distance[node.name] + 1;
+                previous[e.dest] = node.name;
+                for (auto & n : nodes) {
+                    if (n.name == e.dest) {
+                        q.push(n);
+                    }
+                }
+            }
+        }
+    }
+
+    vector<string> path;
+    string current = end;
+    while (current != start) {
+        if (current.empty()) {
+            if (option == 2) return;
             cout << "--------------------------------------------------------" << endl;
             cout << "There is no Path my friend! Dá sempre para ir a Penantes" << endl;
             cout << "--------------------------------------------------------" << endl;
@@ -108,6 +163,16 @@ void Graph::get_shortest_path(string start, string end)  {
     }
     cout << endl << "--------------------------------------------------------" << endl;
 }
+
+void Graph::setN(int n) {
+    Graph::n = n;
+}
+
+void Graph::setHasDir(bool hasDir) {
+    Graph::hasDir = hasDir;
+}
+
+
 
 
 

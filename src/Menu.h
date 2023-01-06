@@ -11,12 +11,20 @@
 using namespace std;
 
 class Menu {
+private:
+    Data d;
+    Graph airlines;
 public:
-    Menu();
+    Menu(Data d);
+    void displayLogo() const;
     void mainMenu() const;
+    void option1Menu() const;
     bool valid();
     void runMainMenu();
+    void runOption1Menu();
+    void buildGraph();
     void menuOption1();
+    void menuOption2();
 };
 
 

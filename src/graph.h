@@ -31,16 +31,21 @@ class Graph {
     vector<Node> nodes; // The list of nodes being represented
 
 public:
+    Graph();
     // Constructor: nr nodes and direction (default: undirected)
     Graph(int n, bool dir = true);
+
+    void setN(int n);
+
+    void setHasDir(bool hasDir);
 
     // Add edge from source to destination with a certain weight
     void addEdge(string src, string dest, int distance, string airline);
 
     void printGraph();
 
-    void get_shortest_path(string start, string end);
-
+    int get_shortest_path_code(string start, string end);
+    void printPath(string start, string end, int option);
 
 
 

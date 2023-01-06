@@ -4,14 +4,19 @@
 #include "src/graph.h"
 
 int main() {
-    Menu menu;
+
+    Data d;
+    d.readFlights();
+    d.readAirports();
+
+    Menu menu(d);
     menu.runMainMenu();
 
 /*
     Data d;
     d.readFlights();
     d.readAirports();
-
+    d.printHash();
     Graph airlines(d.getFlights().size(), true);
 
     for (auto i : d.getFlights()) {
@@ -40,7 +45,6 @@ int main() {
     airlines.get_shortest_path("GKA", "VAI");
 
 
-    //airlines.printGraph();
-    */
+    //airlines.printGraph();*/
     return 0;
 }

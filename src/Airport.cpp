@@ -4,6 +4,8 @@
 
 #include "Airport.h"
 
+Airport::Airport() {}
+
 Airport::Airport(string code, string name, string city, string country, string latitude, string longitude) {
     this->code = code;
     this->name = name;
