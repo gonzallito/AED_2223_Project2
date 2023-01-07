@@ -205,6 +205,7 @@ void Menu::runOption2Menu() {
                     menuOption23(airportCode);
                     break;
                 case 4:
+                    menuOption24(airportCode);
                     break;
                 case 5:
                     break;
@@ -887,6 +888,17 @@ void Menu::menuOption21(string airportCode) {
             cout << "Number of flights departing from the Airport ---> " << res << endl;
         }
     }
+
+    cout << endl << endl <<  "Do you want to see the full informations? (y/n)" << endl;
+
+    string option;
+    cin >> option;
+
+    /*if (option == "y") {
+        cout << "Flights:"
+
+    }*/
+
 }
 
 
@@ -913,8 +925,6 @@ void Menu::menuOption22(string airportCode) {
 
 void Menu::menuOption23(string airportCode) {
 
-    set<string> cities;
-
     for (auto i : airlines.getNodes()) {
         if (i.name == airportCode) {
             cout << endl << endl;
@@ -922,3 +932,46 @@ void Menu::menuOption23(string airportCode) {
         }
     }
 }
+
+
+
+void Menu::menuOption24(string airportCode) {
+
+    set<string> countries;
+
+    for (auto i : airlines.getNodes()) {
+        if (i.name == airportCode) {
+            for (auto e : i.adj) {
+                for (auto pair : d.getAirportsMap()) {
+                    if (pair.first == e.dest)
+                        countries.insert(pair.second.getCountry());
+                }
+            }
+            cout << endl << endl;
+            cout << "Number of different Countries with direct flight from the Airport ---> " << countries.size() << endl;
+
+            /*
+            cout << endl << endl << "Countries: " << endl;
+            for (auto g : countries) {
+                cout << g << endl;
+            }
+             */
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

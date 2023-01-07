@@ -46,6 +46,7 @@ public:
     void menuOption21(string airportCode);
     void menuOption22(string airportCode);
     void menuOption23(string airportCode);
+    void menuOption24(string airportCode);
 };
 
 

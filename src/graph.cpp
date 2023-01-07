@@ -8,8 +8,6 @@ Graph::Graph() {}
 
 // Add edge from source to destination with a certain weight
 void Graph::addEdge(string src, string dest, int distance, string airline) {
-    bool exists = false;
-    bool edgeExists = false;
 
     for (auto & no : nodes) {
         if (no.name == src) {
@@ -43,6 +41,10 @@ void Graph::addEdge(string src, string dest, int distance, string airline) {
     nodes.push_back(node);
 }
 
+
+
+
+
 void Graph::printGraph() {
     for (auto i: nodes) {
         //if (i.name == "MAG") {
@@ -62,6 +64,10 @@ void Graph::printGraph() {
         //}
     }
 }
+
+
+
+
 
 
 int Graph::get_shortest_path_code(string start, string end)  {
@@ -112,6 +118,9 @@ int Graph::get_shortest_path_code(string start, string end)  {
     path.insert(path.begin(), start);
     return path.size();
 }
+
+
+
 
 
 
