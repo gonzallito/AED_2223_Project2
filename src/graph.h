@@ -17,7 +17,7 @@ class Graph {
     struct Edge {
         string dest;   // Destination node
         int distance; // An integer weight
-        string airline;
+        vector<string> airline;
     };
 
     struct Node {
@@ -32,25 +32,18 @@ class Graph {
 
 public:
     Graph();
-    // Constructor: nr nodes and direction (default: undirected)
-    Graph(int n, bool dir = true);
-
     void setN(int n);
-
     void setHasDir(bool hasDir);
 
     // Add edge from source to destination with a certain weight
     void addEdge(string src, string dest, int distance, string airline);
-
-    void setNodes(const vector<Node> &nodes);
-
-    //const vector<Node> &getNodes() const;
-
     void printGraph();
-
     int get_shortest_path_code(string start, string end);
     void printPath(string start, string end, int option);
 
+    vector<Node> getNodes() {
+        return nodes;
+    }
 };
 
 #endif

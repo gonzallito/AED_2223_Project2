@@ -6,19 +6,25 @@
 #define AED_2223_PROJECT2_MENU_H
 
 #include <iostream>
+#include <set>
 #include "Data.h"
 
 using namespace std;
 
 class Menu {
+
 private:
+
     Data d;
     Graph airlines;
+
 public:
+
     Menu(Data d);
     void displayLogo() const;
     void mainMenu() const;
     void option1MenuDisplay() const;
+    string option2AirportDisplay() const;
     void option2MenuDisplay() const;
     bool valid();
     void runMainMenu();
@@ -26,6 +32,7 @@ public:
     void runOption2Menu();
 
     void buildGraph();
+
     void menuOption1();
     void menuOption2();
     void menuOption3();
@@ -36,7 +43,9 @@ public:
     void menuOption8();
     void menuOption9();
 
-    void menuOption21();
+    void menuOption21(string airportCode);
+    void menuOption22(string airportCode);
+    void menuOption23(string airportCode);
 };
 
 

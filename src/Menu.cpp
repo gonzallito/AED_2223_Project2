@@ -46,7 +46,7 @@ void Menu::option1MenuDisplay() const {
     cout <<                         "|       F L I G H T S    M E N U         |" << endl;
     cout <<                         "------------------------------------------" << endl;
 
-    cout << endl << " Choose input type:" << endl;
+    cout << endl << " Choose an option:" << endl;
 
     cout << " 1 - Airport to Airport" << endl;
     cout << " 2 - Airport to City" << endl;
@@ -64,17 +64,35 @@ void Menu::option1MenuDisplay() const {
     cout << endl;
 }
 
+
+string Menu::option2AirportDisplay() const {
+
+    cout << endl << endl << endl << "------------------------------------------" << endl;
+    cout <<                         "|       A I R P O R T    M E N U         |" << endl;
+    cout <<                         "------------------------------------------" << endl;
+
+    cout << endl << " Enter the Airport's Code:" << endl;
+    cout << " > ";
+
+    string option;
+    cin >> option;
+
+    return option;
+}
+
+
+
 void Menu::option2MenuDisplay() const {
 
     cout << endl << endl << endl << "------------------------------------------" << endl;
     cout <<                         "|       A I R P O R T    M E N U         |" << endl;
     cout <<                         "------------------------------------------" << endl;
 
-    cout << endl << " Choose input type:" << endl;
+    cout << endl << " Choose an option:" << endl;
     cout << " 1 - How many flight depart from this airport?" << endl;
-    cout << " 2 - From how many different companies?" << endl;
+    cout << " 2 - From how many different Airlines?" << endl;
     cout << " 3 - For how many different destinies?" << endl;
-    cout << " 4 - For many different countries?" << endl;
+    cout << " 4 - For how many different countries?" << endl;
     cout << " 5 - How many airports, cities or countries are attainable using at most Y flights?" << endl;
     cout << " 0 - Back" << endl;
     cout << endl;
@@ -91,6 +109,7 @@ bool Menu::valid() {
 }
 
 void Menu::runMainMenu() {
+    //airlines.printGraph();
     while(true) {
         mainMenu();
         cout << " > ";
@@ -163,8 +182,12 @@ void Menu::runOption1Menu() {
 }
 
 void Menu::runOption2Menu() {
+
+    string airportCode = option2AirportDisplay();
+
     while(true) {
         option2MenuDisplay();
+
         cout << " > ";
 
         int option;
@@ -173,11 +196,13 @@ void Menu::runOption2Menu() {
         if (valid()) {
             switch (option) {
                 case 1:
-                    //menuOption1();
+                    menuOption21(airportCode);
                     break;
                 case 2:
+                    menuOption22(airportCode);
                     break;
                 case 3:
+                    menuOption23(airportCode);
                     break;
                 case 4:
                     break;
@@ -847,16 +872,53 @@ void Menu::menuOption9() {
 
 
 
-void Menu::menuOption21() {
-    cout << " Enter Airport's Code: (ex: ORY)" << endl;
-    cout << " > ";
+void Menu::menuOption21(string airportCode) {
 
-    string airportCode;
-    cin >> airportCode;
+    int res = 0;
 
     for (auto i : airlines.getNodes()) {
-
+        if (i.name == airportCode) {
+            for (auto e : i.adj) {
+                for (auto air : e.airline) {
+                    res++;
+                }
+            }
+            cout << endl << endl;
+            cout << "Number of flights departing from the Airport ---> " << res << endl;
+        }
     }
+}
 
 
+
+void Menu::menuOption22(string airportCode) {
+
+    set<string> airlinesCompany;
+
+    for (auto i : airlines.getNodes()) {
+        if (i.name == airportCode) {
+            for (auto e : i.adj) {
+                for (auto air : e.airline) {
+                    airlinesCompany.insert(air);
+                }
+            }
+
+            cout << endl << endl;
+            cout << "Number of Airlines departing from the Airport ---> " << airlinesCompany.size() << endl;
+        }
+    }
+}
+
+
+
+void Menu::menuOption23(string airportCode) {
+
+    set<string> cities;
+
+    for (auto i : airlines.getNodes()) {
+        if (i.name == airportCode) {
+            cout << endl << endl;
+            cout << "Number of different Destinies with direct flight from the Airport ---> " << i.adj.size() << endl;
+        }
+    }
 }

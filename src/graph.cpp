@@ -6,47 +6,59 @@
 
 Graph::Graph() {}
 
-// Constructor: nr nodes and direction (default: undirected)
-Graph::Graph(int n, bool dir) : n(n), hasDir(dir) {
-}
-
 // Add edge from source to destination with a certain weight
 void Graph::addEdge(string src, string dest, int distance, string airline) {
     bool exists = false;
+    bool edgeExists = false;
 
     for (auto & no : nodes) {
         if (no.name == src) {
-            no.adj.push_back({dest, distance, airline});
-            exists = true;
-        }
-    }
-
-    if (!exists) {
-        Node node;
-        node.name = src;
-        node.adj = list<Edge> {};
-        node.visited = false;
-        nodes.push_back(node);
-
-        for (auto & n : nodes) {
-            if (n.name == src) {
-                n.adj.push_back({dest, distance, airline});
+            for (auto it = no.adj.begin(); it != no.adj.end(); it++) {
+                if (it->dest == dest) {
+                    it->airline.push_back(airline);
+                    return;
+                }
             }
+            Edge e;
+            e.dest = dest;
+            e.distance = distance;
+            e.airline = {};
+            e.airline.push_back(airline);
+            no.adj.push_back({e.dest, e.distance, e.airline});
+            return;
         }
     }
+    Edge edge;
+    edge.dest = dest;
+    edge.distance = distance;
+    edge.airline = {};
+    edge.airline.push_back(airline);
+
+    Node node;
+    node.name = src;
+    node.adj = list<Edge> {};
+    node.adj.push_back(edge);
+    node.visited = false;
+
+    nodes.push_back(node);
 }
 
 void Graph::printGraph() {
-    for (auto i : nodes) {
-        //if (i.name == "GKA") {
-            cout << "nome: " << i.name << endl;
-            for (auto e: i.adj) {
-                cout << "-------" << endl;
-                cout << "destino: " << e.dest << endl;
-                cout << "distance: " << e.distance << endl;
-                cout << "airline: " << e.airline << endl;
+    for (auto i: nodes) {
+        //if (i.name == "MAG") {
+        cout << "nome: " << i.name << endl;
+        for (auto e: i.adj) {
+            cout << "-------" << endl;
+            cout << "destino: " << e.dest << endl;
+            cout << "distance: " << e.distance << endl;
+            cout << "airlines: ";
+            for (auto i: e.airline) {
+                cout << i << " - ";
             }
-            cout << "-----------------------------------------------------------" << endl;
+            cout << endl;
+            //cout << "airline: " << e.airline.size() << endl;
+        }
+        cout << "-----------------------------------------------------------" << endl;
         //}
     }
 }
@@ -170,12 +182,4 @@ void Graph::setN(int n) {
 
 void Graph::setHasDir(bool hasDir) {
     Graph::hasDir = hasDir;
-}
-/*
-const vector<Node> &Graph::getNodes() const {
-    return nodes;
-}
-*/
-void Graph::setNodes(const vector<Node> &nodes) {
-    Graph::nodes = nodes;
 }
