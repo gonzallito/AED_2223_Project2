@@ -8,6 +8,7 @@ int main() {
     Data d;
     d.readFlights();
     d.readAirports();
+    d.readAirlines();
 
     Menu menu(d);
     menu.runMainMenu();

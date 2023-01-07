@@ -35,7 +35,7 @@ void Menu::mainMenu() const {
 
     cout << endl << " Choose an option:" << endl;
     cout << " 1 - Best way to fly from one location to another" << endl;
-    cout << " 2 - Information about an airport (Not Working)" << endl;
+    cout << " 2 - Information about an airport" << endl;
     cout << " 3 - Exit" << endl;
     cout << endl;
 }
@@ -208,6 +208,7 @@ void Menu::runOption2Menu() {
                     menuOption24(airportCode);
                     break;
                 case 5:
+                    menuOption25(airportCode);
                     break;
                 case 0:
                     runMainMenu();
@@ -894,11 +895,26 @@ void Menu::menuOption21(string airportCode) {
     string option;
     cin >> option;
 
-    /*if (option == "y") {
-        cout << "Flights:"
-
-    }*/
-
+    if (option == "y") {
+        cout << endl << endl << "Flights:" << endl;
+        for (auto i : airlines.getNodes()) {
+            if (i.name == airportCode) {
+                for (auto e : i.adj) {
+                    for (auto air : e.airline) {
+                        for (auto t: d.getAirportsMap()) {
+                            if (t.first == e.dest) {
+                                for (auto g : d.getAirlinesMap()) {
+                                    if (g.first == air)
+                                        cout << airportCode << " ---> " << e.dest << " (" << t.second.getName() << ")"
+                                             << "  -----------------  " << air << " (" << g.second.getName() << ")" << endl;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 
@@ -919,6 +935,21 @@ void Menu::menuOption22(string airportCode) {
             cout << "Number of Airlines departing from the Airport ---> " << airlinesCompany.size() << endl;
         }
     }
+
+    cout << endl << endl <<  "Do you want to see the full informations? (y/n)" << endl;
+
+    string option;
+    cin >> option;
+
+    if (option == "y") {
+        cout << endl << endl << "Airlines:" << endl;
+        for (auto inSet : airlinesCompany) {
+            for (auto g : d.getAirlinesMap()) {
+                if (g.first == inSet)
+                    cout << inSet << "   (" << g.second.getName() << ")" << endl;
+            }
+        }
+    }
 }
 
 
@@ -931,6 +962,26 @@ void Menu::menuOption23(string airportCode) {
             cout << "Number of different Destinies with direct flight from the Airport ---> " << i.adj.size() << endl;
         }
     }
+
+    cout << endl << endl <<  "Do you want to see the full informations? (y/n)" << endl;
+
+    string option;
+    cin >> option;
+
+    if (option == "y") {
+        cout << endl << endl << "Destinies:" << endl;
+        for (auto i : airlines.getNodes()) {
+            if (i.name == airportCode) {
+                for (auto e : i.adj) {
+                    for (auto pair : d.getAirportsMap()) {
+                        if (pair.first == e.dest)
+                            cout << airportCode << " ---> " << e.dest << "   (" << pair.second.getCity() << ")" << endl;
+                    }
+                }
+            }
+        }
+    }
+
 }
 
 
@@ -949,29 +1000,74 @@ void Menu::menuOption24(string airportCode) {
             }
             cout << endl << endl;
             cout << "Number of different Countries with direct flight from the Airport ---> " << countries.size() << endl;
+        }
+    }
 
-            /*
-            cout << endl << endl << "Countries: " << endl;
-            for (auto g : countries) {
-                cout << g << endl;
-            }
-             */
+    cout << endl << endl <<  "Do you want to see the full informations? (y/n)" << endl;
+
+    string option;
+    cin >> option;
+
+    if (option == "y") {
+        cout << endl << endl << "Countries: " << endl;
+        for (auto g : countries) {
+            cout << g << endl;
         }
     }
 }
 
 
 
+void Menu::menuOption25(string airportCode) {
+
+    cout << endl << endl <<  "Enter Y value: " << endl;
+    cout << " > ";
+
+    int value;
+    cin >> value;
+    cout << endl << endl;
+
+    int res = 0;
+    set<string> cities;
+    set<string> countries;
 
 
 
 
+    for (auto i : d.getAirportsMap()) {
+        if (airportCode != i.first && airlines.get_shortest_path_code(airportCode, i.first) < value+1 && airlines.get_shortest_path_code(airportCode, i.first) > 0) {
+            airlines.printPath(airportCode, i.first, 2);
+            res++;
+            cities.insert(i.second.getCity());
+            countries.insert(i.second.getCountry());
+        }
+    }
+
+    cout << endl << endl;
+    cout << "Number of Airports attainable using at most Y flights ---> " << res << endl;
+
+    cout << endl << endl;
+    cout << "Number of Cities attainable using at most Y flights ---> " << cities.size() << endl;
+
+    cout << endl << endl;
+    cout << "Number of Countries attainable using at most Y flights ---> " << countries.size() << endl;
 
 
+    cout << endl << endl <<  "Do you want to see the full informations? (y/n)" << endl;
 
+    string option;
+    cin >> option;
 
-
-
-
-
-
+    if (option == "y") {
+        cout << endl << endl << "Cities: " << endl;
+        for (auto city : cities) {
+            cout << city << endl;
+        }
+        cout << endl << endl << endl
+        << "----------------------------------------------------------------------------" << endl;
+        cout << endl << endl << "Countries: " << endl;
+        for (auto country : countries) {
+            cout << country << endl;
+        }
+    }
+}

@@ -24,6 +24,7 @@ public:
     string getCallSign() const;
     string getCountry() const;
 
+    Airline();
 };
 
 

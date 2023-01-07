@@ -40,6 +40,7 @@ bool Data::readAirlines() {
 
         Airline airline(code, name, callSign, country);
         airlines.push_back(airline);
+        airlinesMap[code] = airline;
     }
 
     file_airlines.close();
@@ -116,6 +117,10 @@ vector<Flight> Data::getFlights() const
 
 const unordered_map<string, Airport> &Data::getAirportsMap() const {
     return airportsMap;
+}
+
+const unordered_map<string, Airline> &Data::getAirlinesMap() const {
+    return airlinesMap;
 }
 
 

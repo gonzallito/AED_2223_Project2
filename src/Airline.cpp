@@ -23,6 +23,10 @@ string Airline::getCallSign() const
 string Airline::getCountry() const
 {return this->country;}
 
+Airline::Airline() {
+
+}
+
 
 
 
