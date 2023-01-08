@@ -3,7 +3,10 @@
 //
 
 #include <climits>
+#include <algorithm>
 #include "Menu.h"
+
+using namespace std;
 
 Menu::Menu(Data d) {
     this->d = d;
@@ -281,6 +284,61 @@ void Menu::menuOption1() {
 
     cout << endl << endl;
 
+
+
+    cout << endl << "Do you want to specify the Airlines? (y/n)" << endl;
+    cout << " > ";
+
+    string answer;
+    cin >> answer;
+
+    cout << endl << endl;
+
+    vector<string> airlineCompanies;
+
+    if (answer == "y") {
+
+        cout << "Enter Airline: ";
+        string airlineCompany;
+        cin >> airlineCompany;
+        airlineCompanies.push_back(airlineCompany);
+
+        while (airlineCompany != "n") {
+            cout << "Enter Airline (n to stop): ";
+            cin >> airlineCompany;
+            airlineCompanies.push_back(airlineCompany);
+        }
+
+    }
+    else
+        return;
+
+    vector<int> numeros;
+    numeros.assign(path.size()-1, 0);
+
+    for (int i = 0; i < path.size()-1; i++) {
+        for (auto no : airlines.getNodes()) {
+            if (no.name == path[i]) {
+                for (auto edge : no.adj) {
+                    if (edge.dest == path[i+1]) {
+                        for (auto air: edge.airline) {
+                            for (auto input : airlineCompanies) {
+                                if (air == input)
+                                    numeros[i] = 1;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    if (count(numeros.begin(), numeros.end(), 0)) {
+        cout << endl << endl << "You CAN'T go from " << airportSource << " to " << airportTarget << " using only that company/companies!" << endl;
+        return;
+    }
+    else
+        cout << endl << endl << "You CAN go from " << airportSource << " to " << airportTarget << " using only that company/companies!" << endl;
 }
 
 
@@ -304,6 +362,10 @@ void Menu::menuOption2() {
     int max = INFINITY;
     int counter = 0;
 
+
+    vector<vector<string>> pathFinal;
+
+
     for (auto j: d.getAirportsMap()) {
         if (j.second.getCity() == cityTarget) {
             auto auxCityTarget = j.first;
@@ -311,11 +373,13 @@ void Menu::menuOption2() {
             if (path1.size() < max) {
                 max = path1.size();
                 airlines.printPath(path1);
+                pathFinal.push_back(path1);
                 if (!path1.empty())
                     counter++;
             }
             else {
                 airlines.printPath(path1);
+                pathFinal.push_back(path1);
                 if (!path1.empty())
                     counter++;
             }
@@ -332,15 +396,90 @@ void Menu::menuOption2() {
             for (auto j: d.getAirportsMap()) {
                 if (j.second.getCity() == cityTarget) {
                     auto auxCityTarget = j.first;
-                    vector<string> path1 = airlines.get_shortest_path_code(airportSource, auxCityTarget);
-                    if (path1.size() == max && !path1.empty()) {
-                        airlines.printPath(path1);
+                    vector<string> path = airlines.get_shortest_path_code(airportSource, auxCityTarget);
+                    if (path.size() == max && !path.empty()) {
+                        airlines.printPath(path);
                     }
                 }
             }
         }
     }
     cout << endl << endl;
+
+
+    cout << endl << "Do you want to specify the Airlines? (y/n)" << endl;
+    cout << " > ";
+
+    string answer;
+    cin >> answer;
+
+    cout << endl << endl;
+
+    vector<string> airlineCompanies;
+
+    if (answer == "y") {
+
+        cout << "Enter Airline: ";
+        string airlineCompany;
+        cin >> airlineCompany;
+        airlineCompanies.push_back(airlineCompany);
+
+        while (airlineCompany != "n") {
+            cout << "Enter Airline (n to stop): ";
+            cin >> airlineCompany;
+            airlineCompanies.push_back(airlineCompany);
+        }
+
+    }
+    else
+        return;
+
+    cout << endl << endl;
+
+    vector<vector<int>> aux;
+
+
+    for (auto path : pathFinal) {
+
+        vector<int> numeros;
+        numeros.assign(path.size()-1, 0);
+
+        for (int i = 0; i < path.size()-1; i++) {
+            for (auto no : airlines.getNodes()) {
+                if (no.name == path[i]) {
+                    for (auto edge : no.adj) {
+                        if (edge.dest == path[i+1]) {
+                            for (auto air: edge.airline) {
+                                for (auto input : airlineCompanies) {
+                                    if (air == input)
+                                        numeros[i] = 1;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        aux.push_back(numeros);
+    }
+
+    bool existsAux = false;
+
+    for (int i = 0; i < aux.size(); ++i) {
+        if (!count(aux[i].begin(), aux[i].end(), 0)) {
+            vector<string> vecAux = pathFinal[i];
+            string aux1 = vecAux[0];
+            string aux2 = vecAux[vecAux.size()-1];
+            vector<string> path2 = airlines.get_shortest_path_code(aux1, aux2);
+            airlines.printPath(path2);
+            existsAux = true;
+        }
+    }
+
+    if (!existsAux) {
+        cout << endl << endl << "You CAN'T go from " << airportSource << " to " << cityTarget << " using only that company/companies!" << endl;
+    }
+
 }
 
 
@@ -376,6 +515,8 @@ void Menu::menuOption3() {
     int max = INFINITY;
     int counter = 0;
 
+    vector<vector<string>> pathFinal;
+
     for (auto j: d.getAirportsMap()) {
         if (d.haversine(latTarget, lonTarget, stod(j.second.getLatitude()), stod(j.second.getLongitude())) < distanceInput) {
             auto auxCityTarget = j.first;
@@ -383,11 +524,13 @@ void Menu::menuOption3() {
             if (path1.size() < max) {
                 max = path1.size();
                 airlines.printPath(path1);
+                pathFinal.push_back(path1);
                 if (!path1.empty())
                     counter++;
             }
             else {
                 airlines.printPath(path1);
+                pathFinal.push_back(path1);
                 if (!path1.empty())
                     counter++;
             }
@@ -404,15 +547,89 @@ void Menu::menuOption3() {
             for (auto j: d.getAirportsMap()) {
                 if (d.haversine(latTarget, lonTarget, stod(j.second.getLatitude()), stod(j.second.getLongitude())) < distanceInput) {
                     auto auxCityTarget = j.first;
-                    vector<string> path1 = airlines.get_shortest_path_code(airportSource, auxCityTarget);
-                    if (path1.size() == max && !path1.empty()) {
-                        airlines.printPath(path1);
+                    vector<string> path = airlines.get_shortest_path_code(airportSource, auxCityTarget);
+                    if (path.size() == max && !path.empty()) {
+                        airlines.printPath(path);
                     }
                 }
             }
         }
     }
     cout << endl << endl;
+
+
+    cout << endl << "Do you want to specify the Airlines? (y/n)" << endl;
+    cout << " > ";
+
+    string answer;
+    cin >> answer;
+
+    cout << endl << endl;
+
+    vector<string> airlineCompanies;
+
+    if (answer == "y") {
+
+        cout << "Enter Airline: ";
+        string airlineCompany;
+        cin >> airlineCompany;
+        airlineCompanies.push_back(airlineCompany);
+
+        while (airlineCompany != "n") {
+            cout << "Enter Airline (n to stop): ";
+            cin >> airlineCompany;
+            airlineCompanies.push_back(airlineCompany);
+        }
+
+    }
+    else
+        return;
+
+    cout << endl << endl;
+
+    vector<vector<int>> aux;
+
+
+    for (auto path : pathFinal) {
+
+        vector<int> numeros;
+        numeros.assign(path.size()-1, 0);
+
+        for (int i = 0; i < path.size()-1; i++) {
+            for (auto no : airlines.getNodes()) {
+                if (no.name == path[i]) {
+                    for (auto edge : no.adj) {
+                        if (edge.dest == path[i+1]) {
+                            for (auto air: edge.airline) {
+                                for (auto input : airlineCompanies) {
+                                    if (air == input)
+                                        numeros[i] = 1;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        aux.push_back(numeros);
+    }
+
+    bool existsAux = false;
+
+    for (int i = 0; i < aux.size(); ++i) {
+        if (!count(aux[i].begin(), aux[i].end(), 0)) {
+            vector<string> vecAux = pathFinal[i];
+            string aux1 = vecAux[0];
+            string aux2 = vecAux[vecAux.size()-1];
+            vector<string> path2 = airlines.get_shortest_path_code(aux1, aux2);
+            airlines.printPath(path2);
+            existsAux = true;
+        }
+    }
+
+    if (!existsAux) {
+        cout << endl << endl << "You CAN'T go from " << airportSource << " to those coordinates using only that company/companies!" << endl;
+    }
 }
 
 
@@ -436,6 +653,8 @@ void Menu::menuOption4() {
     int max = INFINITY;
     int counter = 0;
 
+    vector<vector<string>> pathFinal;
+
     for (auto i : d.getAirportsMap()) {
         if (i.second.getCity() == citySource) {
             auto auxCitySource = i.first;
@@ -443,11 +662,13 @@ void Menu::menuOption4() {
             if (path1.size() < max) {
                     max = path1.size();
                     airlines.printPath(path1);
+                    pathFinal.push_back(path1);
                     if (!path1.empty())
                         counter++;
             }
             else {
                 airlines.printPath(path1);
+                pathFinal.push_back(path1);
                 if (!path1.empty())
                     counter++;
             }
@@ -464,15 +685,91 @@ void Menu::menuOption4() {
             for (auto i: d.getAirportsMap()) {
                 if (i.second.getCity() == citySource) {
                     auto auxCitySource = i.first;
-                    vector<string> path1 = airlines.get_shortest_path_code(auxCitySource, airportTarget);
-                    if (path1.size() == max && !path1.empty()) {
-                        airlines.printPath(path1);
+                    vector<string> path = airlines.get_shortest_path_code(auxCitySource, airportTarget);
+                    if (path.size() == max && !path.empty()) {
+                        airlines.printPath(path);
                     }
                 }
             }
         }
     }
     cout << endl << endl;
+
+
+
+
+    cout << endl << "Do you want to specify the Airlines? (y/n)" << endl;
+    cout << " > ";
+
+    string answer;
+    cin >> answer;
+
+    cout << endl << endl;
+
+    vector<string> airlineCompanies;
+
+    if (answer == "y") {
+
+        cout << "Enter Airline: ";
+        string airlineCompany;
+        cin >> airlineCompany;
+        airlineCompanies.push_back(airlineCompany);
+
+        while (airlineCompany != "n") {
+            cout << "Enter Airline (n to stop): ";
+            cin >> airlineCompany;
+            airlineCompanies.push_back(airlineCompany);
+        }
+
+    }
+    else
+        return;
+
+    cout << endl << endl;
+
+    vector<vector<int>> aux;
+
+
+    for (auto path : pathFinal) {
+
+        vector<int> numeros;
+        numeros.assign(path.size()-1, 0);
+
+        for (int i = 0; i < path.size()-1; i++) {
+            for (auto no : airlines.getNodes()) {
+                if (no.name == path[i]) {
+                    for (auto edge : no.adj) {
+                        if (edge.dest == path[i+1]) {
+                            for (auto air: edge.airline) {
+                                for (auto input : airlineCompanies) {
+                                    if (air == input)
+                                        numeros[i] = 1;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        aux.push_back(numeros);
+    }
+
+    bool existsAux = false;
+
+    for (int i = 0; i < aux.size(); ++i) {
+        if (!count(aux[i].begin(), aux[i].end(), 0)) {
+            vector<string> vecAux = pathFinal[i];
+            string aux1 = vecAux[0];
+            string aux2 = vecAux[vecAux.size()-1];
+            vector<string> path2 = airlines.get_shortest_path_code(aux1, aux2);
+            airlines.printPath(path2);
+            existsAux = true;
+        }
+    }
+
+    if (!existsAux) {
+        cout << endl << endl << "You CAN'T go from " << citySource << " to " << airportTarget << " using only that company/companies!" << endl;
+    }
 }
 
 
@@ -496,6 +793,9 @@ void Menu::menuOption5() {
     int max = INFINITY;
     int counter = 0;
 
+    vector<vector<string>> pathFinal;
+
+
     for (auto i : d.getAirportsMap()) {
         if (i.second.getCity() == citySource) {
             auto auxCitySource = i.first;
@@ -506,11 +806,13 @@ void Menu::menuOption5() {
                     if (path1.size() < max) {
                         max = path1.size();
                         airlines.printPath(path1);
+                        pathFinal.push_back(path1);
                         if (!path1.empty())
                             counter++;
                     }
                     else {
                         airlines.printPath(path1);
+                        pathFinal.push_back(path1);
                         if (!path1.empty())
                             counter++;
                     }
@@ -543,6 +845,84 @@ void Menu::menuOption5() {
         }
     }
     cout << endl << endl;
+
+
+
+
+
+
+    cout << endl << "Do you want to specify the Airlines? (y/n)" << endl;
+    cout << " > ";
+
+    string answer;
+    cin >> answer;
+
+    cout << endl << endl;
+
+    vector<string> airlineCompanies;
+
+    if (answer == "y") {
+
+        cout << "Enter Airline: ";
+        string airlineCompany;
+        cin >> airlineCompany;
+        airlineCompanies.push_back(airlineCompany);
+
+        while (airlineCompany != "n") {
+            cout << "Enter Airline (n to stop): ";
+            cin >> airlineCompany;
+            airlineCompanies.push_back(airlineCompany);
+        }
+
+    }
+    else
+        return;
+
+    cout << endl << endl;
+
+    vector<vector<int>> aux;
+
+
+    for (auto path : pathFinal) {
+
+        vector<int> numeros;
+        numeros.assign(path.size()-1, 0);
+
+        for (int i = 0; i < path.size()-1; i++) {
+            for (auto no : airlines.getNodes()) {
+                if (no.name == path[i]) {
+                    for (auto edge : no.adj) {
+                        if (edge.dest == path[i+1]) {
+                            for (auto air: edge.airline) {
+                                for (auto input : airlineCompanies) {
+                                    if (air == input)
+                                        numeros[i] = 1;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        aux.push_back(numeros);
+    }
+
+    bool existsAux = false;
+
+    for (int i = 0; i < aux.size(); ++i) {
+        if (!count(aux[i].begin(), aux[i].end(), 0)) {
+            vector<string> vecAux = pathFinal[i];
+            string aux1 = vecAux[0];
+            string aux2 = vecAux[vecAux.size()-1];
+            vector<string> path2 = airlines.get_shortest_path_code(aux1, aux2);
+            airlines.printPath(path2);
+            existsAux = true;
+        }
+    }
+
+    if (!existsAux) {
+        cout << endl << endl << "You CAN'T go from " << citySource << " to " << cityTarget << " using only that company/companies!" << endl;
+    }
 }
 
 
@@ -578,6 +958,8 @@ void Menu::menuOption6() {
     int max = INFINITY;
     int counter = 0;
 
+    vector<vector<string>> pathFinal;
+
     for (auto i : d.getAirportsMap()) {
         if (i.second.getCity() == citySource) {
             auto auxCitySource = i.first;
@@ -588,11 +970,13 @@ void Menu::menuOption6() {
                     if (path1.size() < max) {
                         max = path1.size();
                         airlines.printPath(path1);
+                        pathFinal.push_back(path1);
                         if (!path1.empty())
                             counter++;
                     }
                     else {
                         airlines.printPath(path1);
+                        pathFinal.push_back(path1);
                         if (!path1.empty())
                             counter++;
                     }
@@ -625,6 +1009,86 @@ void Menu::menuOption6() {
         }
     }
     cout << endl << endl;
+
+
+
+
+
+
+
+
+    cout << endl << "Do you want to specify the Airlines? (y/n)" << endl;
+    cout << " > ";
+
+    string answer;
+    cin >> answer;
+
+    cout << endl << endl;
+
+    vector<string> airlineCompanies;
+
+    if (answer == "y") {
+
+        cout << "Enter Airline: ";
+        string airlineCompany;
+        cin >> airlineCompany;
+        airlineCompanies.push_back(airlineCompany);
+
+        while (airlineCompany != "n") {
+            cout << "Enter Airline (n to stop): ";
+            cin >> airlineCompany;
+            airlineCompanies.push_back(airlineCompany);
+        }
+
+    }
+    else
+        return;
+
+    cout << endl << endl;
+
+    vector<vector<int>> aux;
+
+
+    for (auto path : pathFinal) {
+
+        vector<int> numeros;
+        numeros.assign(path.size()-1, 0);
+
+        for (int i = 0; i < path.size()-1; i++) {
+            for (auto no : airlines.getNodes()) {
+                if (no.name == path[i]) {
+                    for (auto edge : no.adj) {
+                        if (edge.dest == path[i+1]) {
+                            for (auto air: edge.airline) {
+                                for (auto input : airlineCompanies) {
+                                    if (air == input)
+                                        numeros[i] = 1;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        aux.push_back(numeros);
+    }
+
+    bool existsAux = false;
+
+    for (int i = 0; i < aux.size(); ++i) {
+        if (!count(aux[i].begin(), aux[i].end(), 0)) {
+            vector<string> vecAux = pathFinal[i];
+            string aux1 = vecAux[0];
+            string aux2 = vecAux[vecAux.size()-1];
+            vector<string> path2 = airlines.get_shortest_path_code(aux1, aux2);
+            airlines.printPath(path2);
+            existsAux = true;
+        }
+    }
+
+    if (!existsAux) {
+        cout << endl << endl << "You CAN'T go from " << citySource << " to those coordinates using only that company/companies!" << endl;
+    }
 }
 
 
@@ -662,6 +1126,8 @@ void Menu::menuOption7() {
     int max = INFINITY;
     int counter = 0;
 
+    vector<vector<string>> pathFinal;
+
     for (auto i : d.getAirportsMap()) {
         //cout << d.haversine(latSource, lonSource, stod(i.second.getLatitude()), stod(i.second.getLongitude())) << endl;
         if (d.haversine(latSource, lonSource, stod(i.second.getLatitude()), stod(i.second.getLongitude())) < distanceInput) {
@@ -670,10 +1136,12 @@ void Menu::menuOption7() {
             if (path1.size() < max) {
                 max = path1.size();
                 airlines.printPath(path1);
+                pathFinal.push_back(path1);
                 if (!path1.empty())
                     counter++;
             } else {
                 airlines.printPath(path1);
+                pathFinal.push_back(path1);
                 if (!path1.empty())
                     counter++;
             }
@@ -699,6 +1167,85 @@ void Menu::menuOption7() {
         }
     }
     cout << endl << endl;
+
+
+
+
+
+
+
+    cout << endl << "Do you want to specify the Airlines? (y/n)" << endl;
+    cout << " > ";
+
+    string answer;
+    cin >> answer;
+
+    cout << endl << endl;
+
+    vector<string> airlineCompanies;
+
+    if (answer == "y") {
+
+        cout << "Enter Airline: ";
+        string airlineCompany;
+        cin >> airlineCompany;
+        airlineCompanies.push_back(airlineCompany);
+
+        while (airlineCompany != "n") {
+            cout << "Enter Airline (n to stop): ";
+            cin >> airlineCompany;
+            airlineCompanies.push_back(airlineCompany);
+        }
+
+    }
+    else
+        return;
+
+    cout << endl << endl;
+
+    vector<vector<int>> aux;
+
+
+    for (auto path : pathFinal) {
+
+        vector<int> numeros;
+        numeros.assign(path.size()-1, 0);
+
+        for (int i = 0; i < path.size()-1; i++) {
+            for (auto no : airlines.getNodes()) {
+                if (no.name == path[i]) {
+                    for (auto edge : no.adj) {
+                        if (edge.dest == path[i+1]) {
+                            for (auto air: edge.airline) {
+                                for (auto input : airlineCompanies) {
+                                    if (air == input)
+                                        numeros[i] = 1;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        aux.push_back(numeros);
+    }
+
+    bool existsAux = false;
+
+    for (int i = 0; i < aux.size(); ++i) {
+        if (!count(aux[i].begin(), aux[i].end(), 0)) {
+            vector<string> vecAux = pathFinal[i];
+            string aux1 = vecAux[0];
+            string aux2 = vecAux[vecAux.size()-1];
+            vector<string> path2 = airlines.get_shortest_path_code(aux1, aux2);
+            airlines.printPath(path2);
+            existsAux = true;
+        }
+    }
+
+    if (!existsAux) {
+        cout << endl << endl << "You CAN'T go from those coordinates to " << airportTarget << " using only that company/companies!" << endl;
+    }
 }
 
 
@@ -737,6 +1284,8 @@ void Menu::menuOption8() {
     int max = INFINITY;
     int counter = 0;
 
+    vector<vector<string>> pathFinal;
+
     for (auto i : d.getAirportsMap()) {
         //cout << d.haversine(latSource, lonSource, stod(i.second.getLatitude()), stod(i.second.getLongitude())) << endl;
         if (d.haversine(latSource, lonSource, stod(i.second.getLatitude()), stod(i.second.getLongitude())) < distanceInput1) {
@@ -748,11 +1297,13 @@ void Menu::menuOption8() {
                     if (path1.size() < max) {
                         max = path1.size();
                         airlines.printPath(path1);
+                        pathFinal.push_back(path1);
                         if (!path1.empty())
                             counter++;
                     }
                     else {
                         airlines.printPath(path1);
+                        pathFinal.push_back(path1);
                         if (!path1.empty())
                             counter++;
                     }
@@ -785,6 +1336,83 @@ void Menu::menuOption8() {
         }
     }
     cout << endl << endl;
+
+
+
+
+
+    cout << endl << "Do you want to specify the Airlines? (y/n)" << endl;
+    cout << " > ";
+
+    string answer;
+    cin >> answer;
+
+    cout << endl << endl;
+
+    vector<string> airlineCompanies;
+
+    if (answer == "y") {
+
+        cout << "Enter Airline: ";
+        string airlineCompany;
+        cin >> airlineCompany;
+        airlineCompanies.push_back(airlineCompany);
+
+        while (airlineCompany != "n") {
+            cout << "Enter Airline (n to stop): ";
+            cin >> airlineCompany;
+            airlineCompanies.push_back(airlineCompany);
+        }
+
+    }
+    else
+        return;
+
+    cout << endl << endl;
+
+    vector<vector<int>> aux;
+
+
+    for (auto path : pathFinal) {
+
+        vector<int> numeros;
+        numeros.assign(path.size()-1, 0);
+
+        for (int i = 0; i < path.size()-1; i++) {
+            for (auto no : airlines.getNodes()) {
+                if (no.name == path[i]) {
+                    for (auto edge : no.adj) {
+                        if (edge.dest == path[i+1]) {
+                            for (auto air: edge.airline) {
+                                for (auto input : airlineCompanies) {
+                                    if (air == input)
+                                        numeros[i] = 1;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        aux.push_back(numeros);
+    }
+
+    bool existsAux = false;
+
+    for (int i = 0; i < aux.size(); ++i) {
+        if (!count(aux[i].begin(), aux[i].end(), 0)) {
+            vector<string> vecAux = pathFinal[i];
+            string aux1 = vecAux[0];
+            string aux2 = vecAux[vecAux.size()-1];
+            vector<string> path2 = airlines.get_shortest_path_code(aux1, aux2);
+            airlines.printPath(path2);
+            existsAux = true;
+        }
+    }
+
+    if (!existsAux) {
+        cout << endl << endl << "You CAN'T go from those coordinates to " << cityTarget << " using only that company/companies!" << endl;
+    }
 }
 
 
@@ -830,6 +1458,8 @@ void Menu::menuOption9() {
     int max = INFINITY;
     int counter = 0;
 
+    vector<vector<string>> pathFinal;
+
     for (auto i : d.getAirportsMap()) {
         //cout << d.haversine(latSource, lonSource, stod(i.second.getLatitude()), stod(i.second.getLongitude())) << endl;
         if (d.haversine(latSource, lonSource, stod(i.second.getLatitude()), stod(i.second.getLongitude())) < distanceInput1) {
@@ -841,11 +1471,13 @@ void Menu::menuOption9() {
                     if (path1.size() < max) {
                         max = path1.size();
                         airlines.printPath(path1);
+                        pathFinal.push_back(path1);
                         if (!path1.empty())
                             counter++;
                     }
                     else {
                         airlines.printPath(path1);
+                        pathFinal.push_back(path1);
                         if (!path1.empty())
                             counter++;
                     }
@@ -878,6 +1510,83 @@ void Menu::menuOption9() {
         }
     }
     cout << endl << endl;
+
+
+
+
+
+    cout << endl << "Do you want to specify the Airlines? (y/n)" << endl;
+    cout << " > ";
+
+    string answer;
+    cin >> answer;
+
+    cout << endl << endl;
+
+    vector<string> airlineCompanies;
+
+    if (answer == "y") {
+
+        cout << "Enter Airline: ";
+        string airlineCompany;
+        cin >> airlineCompany;
+        airlineCompanies.push_back(airlineCompany);
+
+        while (airlineCompany != "n") {
+            cout << "Enter Airline (n to stop): ";
+            cin >> airlineCompany;
+            airlineCompanies.push_back(airlineCompany);
+        }
+
+    }
+    else
+        return;
+
+    cout << endl << endl;
+
+    vector<vector<int>> aux;
+
+
+    for (auto path : pathFinal) {
+
+        vector<int> numeros;
+        numeros.assign(path.size()-1, 0);
+
+        for (int i = 0; i < path.size()-1; i++) {
+            for (auto no : airlines.getNodes()) {
+                if (no.name == path[i]) {
+                    for (auto edge : no.adj) {
+                        if (edge.dest == path[i+1]) {
+                            for (auto air: edge.airline) {
+                                for (auto input : airlineCompanies) {
+                                    if (air == input)
+                                        numeros[i] = 1;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        aux.push_back(numeros);
+    }
+
+    bool existsAux = false;
+
+    for (int i = 0; i < aux.size(); ++i) {
+        if (!count(aux[i].begin(), aux[i].end(), 0)) {
+            vector<string> vecAux = pathFinal[i];
+            string aux1 = vecAux[0];
+            string aux2 = vecAux[vecAux.size()-1];
+            vector<string> path2 = airlines.get_shortest_path_code(aux1, aux2);
+            airlines.printPath(path2);
+            existsAux = true;
+        }
+    }
+
+    if (!existsAux) {
+        cout << endl << endl << "You CAN'T go from one coordinates to the other using only that company/companies!" << endl;
+    }
 }
 
 
@@ -1054,16 +1763,19 @@ void Menu::menuOption25(string airportCode) {
     }
 
     cout << endl << endl;
-    cout << "Number of Airports attainable using at most Y flights ---> " << airports.size() << endl;
+    cout << "Number of Airports attainable using at most " << value << " flights ---> " << airports.size() << endl;
 
     cout << endl << endl;
-    cout << "Number of Cities attainable using at most Y flights ---> " << cities.size() << endl;
+    cout << "Number of Cities attainable using at most " << value << " flights ---> " << cities.size() << endl;
 
     cout << endl << endl;
-    cout << "Number of Countries attainable using at most Y flights ---> " << countries.size() << endl;
+    cout << "Number of Countries attainable using at most " << value << " flights ---> " << countries.size() << endl;
 
 
-    cout << endl << endl << "Do you want to see the full informations? (y/n)" << endl;
+
+
+
+    cout << endl << endl << "Do you want to see the full list of Airports? (y/n)" << endl;
 
     string option;
     cin >> option;
@@ -1075,15 +1787,37 @@ void Menu::menuOption25(string airportCode) {
             vector<string> path1 = airlines.get_shortest_path_code(airportCode, air);
             airlines.printPath(path1);
         }
+    }
 
 
+
+
+
+    cout << endl << endl << "Do you want to see the full list of Cities? (y/n)" << endl;
+
+    string option1;
+    cin >> option1;
+
+    if (option1 == "y") {
         cout << endl << endl << endl
              << "----------------------------------------------------------------------------" << endl;
         cout << endl << endl << "Cities: " << endl;
         for (auto city: cities) {
             cout << city << endl;
         }
+    }
 
+
+
+
+
+
+    cout << endl << endl << "Do you want to see the full list of Countries? (y/n)" << endl;
+
+    string option2;
+    cin >> option2;
+
+    if (option2 == "y") {
 
         cout << endl << endl << endl
              << "----------------------------------------------------------------------------" << endl;
@@ -1092,6 +1826,5 @@ void Menu::menuOption25(string airportCode) {
             cout << country << endl;
         }
     }
-
 }
 
