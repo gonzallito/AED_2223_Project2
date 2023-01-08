@@ -43,7 +43,7 @@ public:
     vector<string> get_shortest_path_code(string start, string end);
     void printPath(vector<string> path);
 
-    void bfs(string v);
+    void bfs(string v, int value);
 
     vector<Node> getNodes() {
         return nodes;

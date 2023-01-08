@@ -1,7 +1,4 @@
-#include <iostream>
 #include "src/Menu.h"
-#include "src/Data.h"
-#include "src/graph.h"
 
 int main() {
 

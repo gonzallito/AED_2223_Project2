@@ -1028,7 +1028,7 @@ void Menu::menuOption24(string airportCode) {
 
 void Menu::menuOption25(string airportCode) {
 
-    cout << endl << endl <<  "Enter Y value: " << endl;
+    cout << endl << endl << "Enter Y value: " << endl;
     cout << " > ";
 
     int value;
@@ -1040,42 +1040,21 @@ void Menu::menuOption25(string airportCode) {
     set<string> countries;
     set<string> airports;
 
-    cout << "000000" << endl;
-    airlines.bfs(airportCode);
-    cout << "888888" << endl;
 
-    for (auto i : airlines.getNodes()) {
-        if (i.dist == 1) {
-            cout << "nome: " << i.name << endl;
+    airlines.bfs(airportCode, value);
+
+    for (auto i: airlines.getNodes()) {
+        if (i.dist <= value && i.dist > 0) {
+            //cout << "nome: " << i.name << "---------" << i.dist << endl;
             airports.insert(i.name);
-        }
-    }
-/*
-    cout << "------------------------------------------------------" << endl;
-    cout << airports.size() << endl;
-    cout << "------------------------------------------------------" << endl;
-
-    for (auto air : airports) {
-        vector<string> path = airlines.get_shortest_path_code(airportCode, air);
-        airlines.printPath(path);
-    }
-    */
-
-
-
-/*
-    for (auto i : d.getAirportsMap()) {
-        vector<string> path1 = airlines.get_shortest_path_code(airportCode, i.first);
-        if (airportCode != i.first && path1.size() <= value+1 && path1.size() > 1) {
-            airlines.printPath(path1);
-            res++;
-            cities.insert(i.second.getCity());
-            countries.insert(i.second.getCountry());
+            unordered_map<string, Airport> airportsMap2 = d.getAirportsMap();
+            cities.insert(airportsMap2[i.name].getCity());
+            countries.insert(airportsMap2[i.name].getCountry());
         }
     }
 
     cout << endl << endl;
-    cout << "Number of Airports attainable using at most Y flights ---> " << res << endl;
+    cout << "Number of Airports attainable using at most Y flights ---> " << airports.size() << endl;
 
     cout << endl << endl;
     cout << "Number of Cities attainable using at most Y flights ---> " << cities.size() << endl;
@@ -1084,23 +1063,35 @@ void Menu::menuOption25(string airportCode) {
     cout << "Number of Countries attainable using at most Y flights ---> " << countries.size() << endl;
 
 
-    cout << endl << endl <<  "Do you want to see the full informations? (y/n)" << endl;
+    cout << endl << endl << "Do you want to see the full informations? (y/n)" << endl;
 
     string option;
     cin >> option;
 
     if (option == "y") {
+
+        cout << endl << endl << "Flights: " << endl;
+        for (auto air: airports) {
+            vector<string> path1 = airlines.get_shortest_path_code(airportCode, air);
+            airlines.printPath(path1);
+        }
+
+
+        cout << endl << endl << endl
+             << "----------------------------------------------------------------------------" << endl;
         cout << endl << endl << "Cities: " << endl;
-        for (auto city : cities) {
+        for (auto city: cities) {
             cout << city << endl;
         }
+
+
         cout << endl << endl << endl
-        << "----------------------------------------------------------------------------" << endl;
+             << "----------------------------------------------------------------------------" << endl;
         cout << endl << endl << "Countries: " << endl;
-        for (auto country : countries) {
+        for (auto country: countries) {
             cout << country << endl;
         }
     }
-    */
 
 }
+

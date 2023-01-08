@@ -143,17 +143,16 @@ void Graph::setHasDir(bool hasDir) {
 
 
 
-void Graph::bfs(string v) {
-    for (auto node : nodes) {
-        if (node.name == v)
-            node.visited = false;
+void Graph::bfs(string v, int value) {
+    for (auto & node : nodes) {
+        node.visited = false;
+        node.dist = -1;
     }
 
     queue<string> q; // queue of unvisited nodes
     q.push(v);
 
-
-    for (auto node : nodes) {
+    for (auto & node : nodes) {
         if (node.name == v) {
             node.dist = 0;
             node.visited = true;
@@ -165,10 +164,12 @@ void Graph::bfs(string v) {
         q.pop();
         //cout << u << " "; // show node order
         for (auto node : nodes) {
-            if (node.name == v) {
+            if (node.name == u) {
+                if (node.dist > value)
+                    break;
                 for (auto e: node.adj) {
                     string w = e.dest;
-                    for (auto j : nodes) {
+                    for (auto & j : nodes) {
                         if (j.name == w) {
                             if (!j.visited) {
                                 q.push(w);
@@ -181,10 +182,4 @@ void Graph::bfs(string v) {
             }
         }
     }
-    cout << endl;
-    cout << "------------------------------------------------------" << endl;
-    for (auto & node : nodes)
-        cout << node.dist << endl;
-    cout << "------------------------------------------------------" << endl;
-
 }
