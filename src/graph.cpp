@@ -41,35 +41,6 @@ void Graph::addEdge(string src, string dest, int distance, string airline) {
     nodes.push_back(node);
 }
 
-
-
-
-
-void Graph::printGraph() {
-    for (auto i: nodes) {
-        //if (i.name == "MAG") {
-        cout << "nome: " << i.name << endl;
-        for (auto e: i.adj) {
-            cout << "-------" << endl;
-            cout << "destino: " << e.dest << endl;
-            cout << "distance: " << e.distance << endl;
-            cout << "airlines: ";
-            for (auto i: e.airline) {
-                cout << i << " - ";
-            }
-            cout << endl;
-            //cout << "airline: " << e.airline.size() << endl;
-        }
-        cout << "-----------------------------------------------------------" << endl;
-        //}
-    }
-}
-
-
-
-
-
-
 vector<string> Graph::get_shortest_path_code(string start, string end)  {
     queue<Node> q;
     unordered_map<string, string> previous;

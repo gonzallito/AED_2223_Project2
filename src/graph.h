@@ -13,6 +13,10 @@
 
 using namespace std;
 
+/**
+ * Classe Graph
+ * @details esta classe gera o grafo
+ */
 class Graph {
     struct Edge {
         string dest;   // Destination node
@@ -32,22 +36,45 @@ class Graph {
     vector<Node> nodes; // The list of nodes being represented
 
 public:
+    /**
+     * Construtor por default
+     */
     Graph();
-
+    /**
+     * @param n n
+     */
     void setN(int n);
+    /**
+     * @param hasDir hasDir
+     */
     void setHasDir(bool hasDir);
-
+    /**
+     * @param src src
+     * @param dest dest
+     * @param distance distance
+     * @param airline airline
+     */
     // Add edge from source to destination with a certain weight
     void addEdge(string src, string dest, int distance, string airline);
-    void printGraph();
+    /**
+     * Obtém o caminho mais curto
+     * @param start start
+     * @param end end
+     * @return path
+     */
     vector<string> get_shortest_path_code(string start, string end);
+    /**
+     * @param path path
+     */
     void printPath(vector<string> path);
-
+    /**
+     * @param v v
+     * @param value value
+     */
     void bfs(string v, int value);
+    vector<Node> getNodes()
+    {return nodes;}
 
-    vector<Node> getNodes() {
-        return nodes;
-    }
 };
 
 #endif

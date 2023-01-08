@@ -142,10 +142,4 @@ double Data::haversine(double lat1, double lon1, double lat2, double lon2) {
     return d;
 }
 
-void Data::printHash() {
-    for (auto i : airportsMap) {
-        cout << i.first << " - " << i.second.getName() << " - " << i.second.getLongitude() << " - " << i.second.getLatitude()<< endl;
-    }
-}
-
 
