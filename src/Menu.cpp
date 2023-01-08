@@ -276,8 +276,8 @@ void Menu::menuOption1() {
     cout << endl << endl;
 
     //airlines.get_shortest_path("GKA", "VAI");    // ANSWER: GKA --- MAG --- VAI
-    airlines.get_shortest_path_code(airportSource, airportTarget);
-    airlines.printPath(airportSource, airportTarget, 1);
+    vector<string> path = airlines.get_shortest_path_code(airportSource, airportTarget);
+    airlines.printPath(path);
 
     cout << endl << endl;
 
@@ -307,15 +307,16 @@ void Menu::menuOption2() {
     for (auto j: d.getAirportsMap()) {
         if (j.second.getCity() == cityTarget) {
             auto auxCityTarget = j.first;
-            if (airlines.get_shortest_path_code(airportSource, auxCityTarget) < max) {
-                max = airlines.get_shortest_path_code(airportSource, auxCityTarget);
-                airlines.printPath(airportSource, auxCityTarget, 2);
-                if (airlines.get_shortest_path_code(airportSource, auxCityTarget) != 0)
+            vector<string> path1 = airlines.get_shortest_path_code(airportSource, auxCityTarget);
+            if (path1.size() < max) {
+                max = path1.size();
+                airlines.printPath(path1);
+                if (!path1.empty())
                     counter++;
             }
             else {
-                airlines.printPath(airportSource, auxCityTarget, 2);
-                if (airlines.get_shortest_path_code(airportSource, auxCityTarget) != 0)
+                airlines.printPath(path1);
+                if (!path1.empty())
                     counter++;
             }
         }
@@ -331,8 +332,9 @@ void Menu::menuOption2() {
             for (auto j: d.getAirportsMap()) {
                 if (j.second.getCity() == cityTarget) {
                     auto auxCityTarget = j.first;
-                    if (airlines.get_shortest_path_code(airportSource, auxCityTarget) == max && airlines.get_shortest_path_code(airportSource, auxCityTarget) != 0) {
-                        airlines.printPath(airportSource, auxCityTarget, 2);
+                    vector<string> path1 = airlines.get_shortest_path_code(airportSource, auxCityTarget);
+                    if (path1.size() == max && !path1.empty()) {
+                        airlines.printPath(path1);
                     }
                 }
             }
@@ -377,15 +379,16 @@ void Menu::menuOption3() {
     for (auto j: d.getAirportsMap()) {
         if (d.haversine(latTarget, lonTarget, stod(j.second.getLatitude()), stod(j.second.getLongitude())) < distanceInput) {
             auto auxCityTarget = j.first;
-            if (airlines.get_shortest_path_code(airportSource, auxCityTarget) < max) {
-                max = airlines.get_shortest_path_code(airportSource, auxCityTarget);
-                airlines.printPath(airportSource, auxCityTarget, 2);
-                if (airlines.get_shortest_path_code(airportSource, auxCityTarget) != 0)
+            vector<string> path1 = airlines.get_shortest_path_code(airportSource, auxCityTarget);
+            if (path1.size() < max) {
+                max = path1.size();
+                airlines.printPath(path1);
+                if (!path1.empty())
                     counter++;
             }
             else {
-                airlines.printPath(airportSource, auxCityTarget, 2);
-                if (airlines.get_shortest_path_code(airportSource, auxCityTarget) != 0)
+                airlines.printPath(path1);
+                if (!path1.empty())
                     counter++;
             }
         }
@@ -401,8 +404,9 @@ void Menu::menuOption3() {
             for (auto j: d.getAirportsMap()) {
                 if (d.haversine(latTarget, lonTarget, stod(j.second.getLatitude()), stod(j.second.getLongitude())) < distanceInput) {
                     auto auxCityTarget = j.first;
-                    if (airlines.get_shortest_path_code(airportSource, auxCityTarget) == max && airlines.get_shortest_path_code(airportSource, auxCityTarget) != 0) {
-                        airlines.printPath(airportSource, auxCityTarget, 2);
+                    vector<string> path1 = airlines.get_shortest_path_code(airportSource, auxCityTarget);
+                    if (path1.size() == max && !path1.empty()) {
+                        airlines.printPath(path1);
                     }
                 }
             }
@@ -435,17 +439,18 @@ void Menu::menuOption4() {
     for (auto i : d.getAirportsMap()) {
         if (i.second.getCity() == citySource) {
             auto auxCitySource = i.first;
-                if (airlines.get_shortest_path_code(auxCitySource, airportTarget) < max) {
-                    max = airlines.get_shortest_path_code(auxCitySource, airportTarget);
-                    airlines.printPath(auxCitySource, airportTarget, 2);
-                    if (airlines.get_shortest_path_code(auxCitySource, airportTarget) != 0)
+            vector<string> path1 = airlines.get_shortest_path_code(auxCitySource, airportTarget);
+            if (path1.size() < max) {
+                    max = path1.size();
+                    airlines.printPath(path1);
+                    if (!path1.empty())
                         counter++;
-                }
-                else {
-                    airlines.printPath(auxCitySource, airportTarget, 2);
-                    if (airlines.get_shortest_path_code(auxCitySource, airportTarget) != 0)
-                        counter++;
-                }
+            }
+            else {
+                airlines.printPath(path1);
+                if (!path1.empty())
+                    counter++;
+            }
         }
     }
 
@@ -459,9 +464,9 @@ void Menu::menuOption4() {
             for (auto i: d.getAirportsMap()) {
                 if (i.second.getCity() == citySource) {
                     auto auxCitySource = i.first;
-                    if (airlines.get_shortest_path_code(auxCitySource, airportTarget) == max &&
-                        airlines.get_shortest_path_code(auxCitySource, airportTarget) != 0) {
-                        airlines.printPath(auxCitySource, airportTarget, 2);
+                    vector<string> path1 = airlines.get_shortest_path_code(auxCitySource, airportTarget);
+                    if (path1.size() == max && !path1.empty()) {
+                        airlines.printPath(path1);
                     }
                 }
             }
@@ -497,15 +502,16 @@ void Menu::menuOption5() {
             for (auto j: d.getAirportsMap()) {
                 if (j.second.getCity() == cityTarget) {
                     auto auxCityTarget = j.first;
-                    if (airlines.get_shortest_path_code(auxCitySource, auxCityTarget) < max) {
-                        max = airlines.get_shortest_path_code(auxCitySource, auxCityTarget);
-                        airlines.printPath(auxCitySource, auxCityTarget, 2);
-                        if (airlines.get_shortest_path_code(auxCitySource, auxCityTarget) != 0)
+                    vector<string> path1 = airlines.get_shortest_path_code(auxCitySource, auxCityTarget);
+                    if (path1.size() < max) {
+                        max = path1.size();
+                        airlines.printPath(path1);
+                        if (!path1.empty())
                             counter++;
                     }
                     else {
-                        airlines.printPath(auxCitySource, auxCityTarget, 2);
-                        if (airlines.get_shortest_path_code(auxCitySource, auxCityTarget) != 0)
+                        airlines.printPath(path1);
+                        if (!path1.empty())
                             counter++;
                     }
                 }
@@ -526,8 +532,9 @@ void Menu::menuOption5() {
                     for (auto j: d.getAirportsMap()) {
                         if (j.second.getCity() == cityTarget) {
                             auto auxCityTarget = j.first;
-                            if (airlines.get_shortest_path_code(auxCitySource, auxCityTarget) == max && airlines.get_shortest_path_code(auxCitySource, auxCityTarget) != 0) {
-                                airlines.printPath(auxCitySource, auxCityTarget, 2);
+                            vector<string> path1 = airlines.get_shortest_path_code(auxCitySource, auxCityTarget);
+                            if (path1.size() == max && !path1.empty()) {
+                                airlines.printPath(path1);
                             }
                         }
                     }
@@ -577,15 +584,16 @@ void Menu::menuOption6() {
             for (auto j: d.getAirportsMap()) {
                 if (d.haversine(latTarget, lonTarget, stod(j.second.getLatitude()), stod(j.second.getLongitude())) < distanceInput) {
                     auto auxCityTarget = j.first;
-                    if (airlines.get_shortest_path_code(auxCitySource, auxCityTarget) < max) {
-                        max = airlines.get_shortest_path_code(auxCitySource, auxCityTarget);
-                        airlines.printPath(auxCitySource, auxCityTarget, 2);
-                        if (airlines.get_shortest_path_code(auxCitySource, auxCityTarget) != 0)
+                    vector<string> path1 = airlines.get_shortest_path_code(auxCitySource, auxCityTarget);
+                    if (path1.size() < max) {
+                        max = path1.size();
+                        airlines.printPath(path1);
+                        if (!path1.empty())
                             counter++;
                     }
                     else {
-                        airlines.printPath(auxCitySource, auxCityTarget, 2);
-                        if (airlines.get_shortest_path_code(auxCitySource, auxCityTarget) != 0)
+                        airlines.printPath(path1);
+                        if (!path1.empty())
                             counter++;
                     }
                 }
@@ -606,8 +614,9 @@ void Menu::menuOption6() {
                     for (auto j: d.getAirportsMap()) {
                         if (d.haversine(latTarget, lonTarget, stod(j.second.getLatitude()), stod(j.second.getLongitude())) < distanceInput) {
                             auto auxCityTarget = j.first;
-                            if (airlines.get_shortest_path_code(auxCitySource, auxCityTarget) == max && airlines.get_shortest_path_code(auxCitySource, auxCityTarget) != 0) {
-                                airlines.printPath(auxCitySource, auxCityTarget, 2);
+                            vector<string> path1 = airlines.get_shortest_path_code(auxCitySource, auxCityTarget);
+                            if (path1.size() == max && !path1.empty()) {
+                                airlines.printPath(path1);
                             }
                         }
                     }
@@ -657,14 +666,15 @@ void Menu::menuOption7() {
         //cout << d.haversine(latSource, lonSource, stod(i.second.getLatitude()), stod(i.second.getLongitude())) << endl;
         if (d.haversine(latSource, lonSource, stod(i.second.getLatitude()), stod(i.second.getLongitude())) < distanceInput) {
             auto auxCitySource = i.first;
-            if (airlines.get_shortest_path_code(auxCitySource, airportTarget) < max) {
-                max = airlines.get_shortest_path_code(auxCitySource, airportTarget);
-                airlines.printPath(auxCitySource, airportTarget, 2);
-                if (airlines.get_shortest_path_code(auxCitySource, airportTarget) != 0)
+            vector<string> path1 = airlines.get_shortest_path_code(auxCitySource, airportTarget);
+            if (path1.size() < max) {
+                max = path1.size();
+                airlines.printPath(path1);
+                if (!path1.empty())
                     counter++;
             } else {
-                airlines.printPath(auxCitySource, airportTarget, 2);
-                if (airlines.get_shortest_path_code(auxCitySource, airportTarget) != 0)
+                airlines.printPath(path1);
+                if (!path1.empty())
                     counter++;
             }
         }
@@ -680,9 +690,9 @@ void Menu::menuOption7() {
             for (auto i: d.getAirportsMap()) {
                 if (d.haversine(latSource, lonSource, stod(i.second.getLatitude()), stod(i.second.getLongitude())) < distanceInput) {
                     auto auxCitySource = i.first;
-                    if (airlines.get_shortest_path_code(auxCitySource, airportTarget) == max &&
-                        airlines.get_shortest_path_code(auxCitySource, airportTarget) != 0) {
-                        airlines.printPath(auxCitySource, airportTarget, 2);
+                    vector<string> path1 = airlines.get_shortest_path_code(auxCitySource, airportTarget);
+                    if (path1.size() == max && !path1.empty()) {
+                        airlines.printPath(path1);
                     }
                 }
             }
@@ -733,19 +743,17 @@ void Menu::menuOption8() {
             auto auxCitySource = i.first;
             for (auto j: d.getAirportsMap()) {
                 if (j.second.getCity() == cityTarget) {
-                    //cout << d.haversine(latTarget, lonTarget, stod(j.second.getLatitude()), stod(j.second.getLongitude())) << endl;
-                    //cout << distanceInput << endl;
-                    //cout << i.first << " - " << j.first << endl;
                     auto auxCityTarget = j.first;
-                    if (airlines.get_shortest_path_code(auxCitySource, auxCityTarget) < max) {
-                        max = airlines.get_shortest_path_code(auxCitySource, auxCityTarget);
-                        airlines.printPath(auxCitySource, auxCityTarget, 2);
-                        if (airlines.get_shortest_path_code(auxCitySource, auxCityTarget) != 0)
+                    vector<string> path1 = airlines.get_shortest_path_code(auxCitySource, auxCityTarget);
+                    if (path1.size() < max) {
+                        max = path1.size();
+                        airlines.printPath(path1);
+                        if (!path1.empty())
                             counter++;
                     }
                     else {
-                        airlines.printPath(auxCitySource, auxCityTarget, 2);
-                        if (airlines.get_shortest_path_code(auxCitySource, auxCityTarget) != 0)
+                        airlines.printPath(path1);
+                        if (!path1.empty())
                             counter++;
                     }
                 }
@@ -766,8 +774,9 @@ void Menu::menuOption8() {
                     for (auto j: d.getAirportsMap()) {
                         if (j.second.getCity() == cityTarget) {
                             auto auxCityTarget = j.first;
-                            if (airlines.get_shortest_path_code(auxCitySource, auxCityTarget) == max && airlines.get_shortest_path_code(auxCitySource, auxCityTarget) != 0) {
-                                airlines.printPath(auxCitySource, auxCityTarget, 2);
+                            vector<string> path1 = airlines.get_shortest_path_code(auxCitySource, auxCityTarget);
+                            if (path1.size() == max && !path1.empty()) {
+                                airlines.printPath(path1);
                             }
                         }
                     }
@@ -827,19 +836,17 @@ void Menu::menuOption9() {
             auto auxCitySource = i.first;
             for (auto j: d.getAirportsMap()) {
                 if (d.haversine(latTarget, lonTarget, stod(j.second.getLatitude()), stod(j.second.getLongitude())) < distanceInput2) {
-                    //cout << d.haversine(latTarget, lonTarget, stod(j.second.getLatitude()), stod(j.second.getLongitude())) << endl;
-                    //cout << distanceInput << endl;
-                    //cout << i.first << " - " << j.first << endl;
                     auto auxCityTarget = j.first;
-                    if (airlines.get_shortest_path_code(auxCitySource, auxCityTarget) < max) {
-                        max = airlines.get_shortest_path_code(auxCitySource, auxCityTarget);
-                        airlines.printPath(auxCitySource, auxCityTarget, 2);
-                        if (airlines.get_shortest_path_code(auxCitySource, auxCityTarget) != 0)
+                    vector<string> path1 = airlines.get_shortest_path_code(auxCitySource, auxCityTarget);
+                    if (path1.size() < max) {
+                        max = path1.size();
+                        airlines.printPath(path1);
+                        if (!path1.empty())
                             counter++;
                     }
                     else {
-                        airlines.printPath(auxCitySource, auxCityTarget, 2);
-                        if (airlines.get_shortest_path_code(auxCitySource, auxCityTarget) != 0)
+                        airlines.printPath(path1);
+                        if (!path1.empty())
                             counter++;
                     }
                 }
@@ -860,8 +867,9 @@ void Menu::menuOption9() {
                     for (auto j: d.getAirportsMap()) {
                         if (d.haversine(latTarget, lonTarget, stod(j.second.getLatitude()), stod(j.second.getLongitude())) < distanceInput2) {
                             auto auxCityTarget = j.first;
-                            if (airlines.get_shortest_path_code(auxCitySource, auxCityTarget) == max && airlines.get_shortest_path_code(auxCitySource, auxCityTarget) != 0) {
-                                airlines.printPath(auxCitySource, auxCityTarget, 2);
+                            vector<string> path1 = airlines.get_shortest_path_code(auxCitySource, auxCityTarget);
+                            if (path1.size() == max && !path1.empty()) {
+                                airlines.printPath(path1);
                             }
                         }
                     }
@@ -1030,13 +1038,36 @@ void Menu::menuOption25(string airportCode) {
     int res = 0;
     set<string> cities;
     set<string> countries;
+    set<string> airports;
+
+    cout << "000000" << endl;
+    airlines.bfs(airportCode);
+    cout << "888888" << endl;
+
+    for (auto i : airlines.getNodes()) {
+        if (i.dist == 1) {
+            cout << "nome: " << i.name << endl;
+            airports.insert(i.name);
+        }
+    }
+/*
+    cout << "------------------------------------------------------" << endl;
+    cout << airports.size() << endl;
+    cout << "------------------------------------------------------" << endl;
+
+    for (auto air : airports) {
+        vector<string> path = airlines.get_shortest_path_code(airportCode, air);
+        airlines.printPath(path);
+    }
+    */
 
 
 
-
+/*
     for (auto i : d.getAirportsMap()) {
-        if (airportCode != i.first && airlines.get_shortest_path_code(airportCode, i.first) < value+1 && airlines.get_shortest_path_code(airportCode, i.first) > 0) {
-            airlines.printPath(airportCode, i.first, 2);
+        vector<string> path1 = airlines.get_shortest_path_code(airportCode, i.first);
+        if (airportCode != i.first && path1.size() <= value+1 && path1.size() > 1) {
+            airlines.printPath(path1);
             res++;
             cities.insert(i.second.getCity());
             countries.insert(i.second.getCountry());
@@ -1070,4 +1101,6 @@ void Menu::menuOption25(string airportCode) {
             cout << country << endl;
         }
     }
+    */
+
 }

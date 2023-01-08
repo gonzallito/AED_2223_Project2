@@ -70,7 +70,7 @@ void Graph::printGraph() {
 
 
 
-int Graph::get_shortest_path_code(string start, string end)  {
+vector<string> Graph::get_shortest_path_code(string start, string end)  {
     queue<Node> q;
     unordered_map<string, string> previous;
     unordered_map<string, int> distance;
@@ -84,15 +84,11 @@ int Graph::get_shortest_path_code(string start, string end)  {
     distance[start] = 0;
 
     while (!q.empty()) {
-
-
         Node node = q.front();
         q.pop();
-
         if (node.name == end) {
             break;
         }
-
         for (auto & e : node.adj) {
             if (distance.count(e.dest) == 0) {
                 distance[e.dest] = distance[node.name] + 1;
@@ -110,13 +106,13 @@ int Graph::get_shortest_path_code(string start, string end)  {
     string current = end;
     while (current != start) {
         if (current.empty()) {
-            return 0;
+            return path;
         }
         path.insert(path.begin(), current);
         current = previous[current];
     }
     path.insert(path.begin(), start);
-    return path.size();
+    return path;
 }
 
 
@@ -124,56 +120,8 @@ int Graph::get_shortest_path_code(string start, string end)  {
 
 
 
-void Graph::printPath(string start, string end, int option) {
-    queue<Node> q;
-    unordered_map<string, string> previous;
-    unordered_map<string, int> distance;
+void Graph::printPath(vector<string> path) {
 
-    for (auto & node : nodes) {
-        if (node.name == start) {
-            q.push(node);
-        }
-    }
-
-    distance[start] = 0;
-
-    while (!q.empty()) {
-
-
-        Node node = q.front();
-        q.pop();
-
-        if (node.name == end) {
-            break;
-        }
-
-        for (auto & e : node.adj) {
-            if (distance.count(e.dest) == 0) {
-                distance[e.dest] = distance[node.name] + 1;
-                previous[e.dest] = node.name;
-                for (auto & n : nodes) {
-                    if (n.name == e.dest) {
-                        q.push(n);
-                    }
-                }
-            }
-        }
-    }
-
-    vector<string> path;
-    string current = end;
-    while (current != start) {
-        if (current.empty()) {
-            if (option == 2) return;
-            cout << "--------------------------------------------------------" << endl;
-            cout << "There is no Path my friend! Dá sempre para ir a Penantes" << endl;
-            cout << "--------------------------------------------------------" << endl;
-            return;
-        }
-        path.insert(path.begin(), current);
-        current = previous[current];
-    }
-    path.insert(path.begin(), start);
     cout << "--------------------------------------------------------" << endl;
     for (int i = 0; i < path.size(); ++i) {
         if (i != path.size()-1) {
@@ -191,4 +139,52 @@ void Graph::setN(int n) {
 
 void Graph::setHasDir(bool hasDir) {
     Graph::hasDir = hasDir;
+}
+
+
+
+void Graph::bfs(string v) {
+    for (auto node : nodes) {
+        if (node.name == v)
+            node.visited = false;
+    }
+
+    queue<string> q; // queue of unvisited nodes
+    q.push(v);
+
+
+    for (auto node : nodes) {
+        if (node.name == v) {
+            node.dist = 0;
+            node.visited = true;
+        }
+    }
+
+    while (!q.empty()) { // while there are still unvisited nodes
+        string u = q.front();
+        q.pop();
+        //cout << u << " "; // show node order
+        for (auto node : nodes) {
+            if (node.name == v) {
+                for (auto e: node.adj) {
+                    string w = e.dest;
+                    for (auto j : nodes) {
+                        if (j.name == w) {
+                            if (!j.visited) {
+                                q.push(w);
+                                j.visited = true;
+                                j.dist = node.dist + 1;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    cout << endl;
+    cout << "------------------------------------------------------" << endl;
+    for (auto & node : nodes)
+        cout << node.dist << endl;
+    cout << "------------------------------------------------------" << endl;
+
 }

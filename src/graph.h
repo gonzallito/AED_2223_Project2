@@ -21,6 +21,7 @@ class Graph {
     };
 
     struct Node {
+        int dist;
         string name;
         list<Edge> adj; // The list of outgoing edges (to adjacent nodes)
         bool visited;   // As the node been visited on a search?
@@ -32,14 +33,17 @@ class Graph {
 
 public:
     Graph();
+
     void setN(int n);
     void setHasDir(bool hasDir);
 
     // Add edge from source to destination with a certain weight
     void addEdge(string src, string dest, int distance, string airline);
     void printGraph();
-    int get_shortest_path_code(string start, string end);
-    void printPath(string start, string end, int option);
+    vector<string> get_shortest_path_code(string start, string end);
+    void printPath(vector<string> path);
+
+    void bfs(string v);
 
     vector<Node> getNodes() {
         return nodes;
