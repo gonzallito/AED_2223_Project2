@@ -66,62 +66,77 @@ public:
     void runOption2Menu();
     /**
      * Constrói o grafo
+     * \complexity: O(|N|^2)
      */
     void buildGraph();
     /**
      * Executa a opção 1 dentro da opção 1 do menu principal
+     * \complexity: O(|N|^5)
      */
     void menuOption1();
     /**
      * Executa a opção 2 dentro da opção 1 do menu principal
+     * \complexity: O(|N|^5)
      */
     void menuOption2();
     /**
      * Executa a opção 3 dentro da opção 1 do menu principal
+     * \complexity: O(|N|^5)
      */
     void menuOption3();
     /**
      * Executa a opção 4 dentro da opção 1 do menu principal
+     * \complexity: O(|N|^5)
      */
     void menuOption4();
     /**
      * Executa a opção 5 dentro da opção 1 do menu principal
+     * \complexity: O(|N|^5)
      */
     void menuOption5();
     /**
      * Executa a opção 6 dentro da opção 1 do menu principal
+     * \complexity: O(|N|^5)
      */
     void menuOption6();
     /**
      * Executa a opção 7 dentro da opção 1 do menu principal
+     * \complexity: O(|N|^5)
      */
     void menuOption7();
     /**
      * Executa a opção 8 dentro da opção 1 do menu principal
+     * \complexity: O(|N|^5)
      */
     void menuOption8();
     /**
      * Executa a opção 9 dentro da opção 1 do menu principal
+     * \complexity: O(|N|^5)
      */
     void menuOption9();
     /**
      * Executa a opção 1 dentro da opção 2 do menu principal
+     * \complexity: O(|N|^5)
      */
     void menuOption21(string airportCode);
     /**
      * Executa a opção 2 dentro da opção 2 do menu principal
+     * \complexity: O(|N|^3)
      */
     void menuOption22(string airportCode);
     /**
      * Executa a opção 3 dentro da opção 2 do menu principal
+     * \complexity: O(|N|^3)
      */
     void menuOption23(string airportCode);
     /**
      * Executa a opção 4 dentro da opção 2 do menu principal
+     * \complexity: O(|N|^3)
      */
     void menuOption24(string airportCode);
     /**
      * Executa a opção 5 dentro da opção 2 do menu principal
+     * \complexity: O(|N|^3)
      */
     void menuOption25(string airportCode);
 };

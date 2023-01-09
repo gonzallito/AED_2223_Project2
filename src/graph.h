@@ -53,6 +53,7 @@ public:
      * @param dest dest
      * @param distance distance
      * @param airline airline
+     * \complexity: O(|N|*|E|)
      */
     // Add edge from source to destination with a certain weight
     void addEdge(string src, string dest, int distance, string airline);
@@ -61,6 +62,7 @@ public:
      * @param start start
      * @param end end
      * @return path
+     * \complexity: O(log(|N|)*|N|*|E|)
      */
     vector<string> get_shortest_path_code(string start, string end);
     /**
@@ -70,6 +72,7 @@ public:
     /**
      * @param v v
      * @param value value
+     * \complexity: O(log(|N|)*|N|^2*|E|)
      */
     void bfs(string v, int value);
     vector<Node> getNodes()
